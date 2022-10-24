@@ -2,6 +2,7 @@ package com.crud.pets.service;
 
 import com.crud.pets.dto.PetDto;
 import com.crud.pets.entity.Pet;
+import com.crud.pets.exception.ResourceNotFoundException;
 import com.crud.pets.repository.PetRepository;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -32,11 +33,13 @@ public class PetService {
     }
     
     public PetDto getPetById(Long id){
-        return mapToDto(petRepository.findById(id).get());
+        
+        Pet pet = petRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("pet", "id", id));
+        return mapToDto(pet);
     }
     
     public PetDto updatePet(PetDto petDto, Long id){
-        Pet pet = petRepository.findById(id).get();
+        Pet pet = petRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("pet", "id", id));
         
         pet.setBirthDate(petDto.getBirthDate());
         pet.setGender(petDto.getGender());
@@ -51,7 +54,7 @@ public class PetService {
     
     public String deletePet(Long id){
         
-        Pet pet = petRepository.findById(id).get();
+        Pet pet = petRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("pet", "id", id));
         
         petRepository.delete(pet);
         
