@@ -5,6 +5,7 @@
 package com.crud.jwt.repository;
 
 import com.crud.jwt.entity.Usuario;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -12,5 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author USUARIO
  */
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
-    
+  
+    Optional <Usuario> findOneByEmail(String email);
+        
 }
